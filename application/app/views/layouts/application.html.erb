@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ClearTerms</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= stylesheet_link_tag    'application', 'https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css' %>
+    <%= stylesheet_link_tag    'application', 'https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css' %>
+    <%= javascript_include_tag 'application' %>
+    <%= javascript_include_tag 'application', 'https://kit.fontawesome.com/18834a1269.js' %>
+    <%= favicon_link_tag asset_path('favicon.png') %>
+  </head>
+
+  <body>
+    <%= render :partial => "partials/nav" %>
+    <%= yield %>
+    <%= render :partial => "partials/footer" %> 
+  </body>
+</html>

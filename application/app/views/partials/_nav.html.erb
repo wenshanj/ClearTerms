@@ -1,0 +1,24 @@
+<header id="header">
+  <div class="container d-flex">
+    <div class="logo mr-auto">
+        <h1 class="text-light"><a href="index.html">ClearTerms<span></span></a></h1>
+        <h6>simplifying terms & conditions</h6>
+    </div>
+    <nav class="nav-menu d-none d-lg-block">
+      <ul>
+        <li><%= link_to 'Browse Companies', companies_path %></li>
+        <li><%= link_to 'FAQ', faq_path %></li>
+        <li><%= link_to 'Help Us', help_path %></li>
+        <li><%= link_to 'About Us', about_path %></li>
+        <li class="col-xs-3">
+            <div class="input-group mb-3" >
+                <input class="form-control input-search" type="text" placeholder="find a company..." onkeyup="searchCompany()" id="myInput">
+                <div class="input-group-append">
+                    <button href="browse.html" class="btn btn-search" type="submit" onmousedown="searchCompanyEnter()"><i class="fas fa-search"></i></button>
+                 </div>
+            </div>
+        </li>
+      </ul>
+    </nav>
+  </div>            
+</header>

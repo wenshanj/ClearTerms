@@ -1,0 +1,663 @@
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "companies"[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (1.6ms)[0m  [1m[35mCREATE TABLE "companies" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "description" varchar, "url" varchar, "logo" varchar, "last_crawled_date" date, "tc_filename" varchar, "tc_url" varchar, "crunchbase_url" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "tcs"[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE TABLE "tcs" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "sentence" varchar, "sentence_order" integer, "rank_of_importance" integer, "company_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE  INDEX "index_tcs_on_company_id" ON "tcs" ("company_id")[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20210510002035)[0m
+  [1m[35m (1.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20210510000423);
+
+[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.3ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "test"], ["created_at", "2021-05-10 01:18:19.764600"], ["updated_at", "2021-05-10 01:18:19.764600"]]
+  [1m[35m (1.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+--------------------------------------------------
+CompanyTest: test_: Company should have many tcs. 
+--------------------------------------------------
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+------------------------------------------------
+CompanyTest: test_: Company should have many t. 
+------------------------------------------------
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+----------------------------------------------------------
+CompanyTest: test_: Company should require url to be set. 
+----------------------------------------------------------
+  [1m[36mCompany Exists (0.6ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------------------------------
+CompanyTest: test_: Company should require name to be set. 
+-----------------------------------------------------------
+  [1m[36mCompany Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------------------------------------
+CompanyTest: test_: Company should require unique value for url. 
+-----------------------------------------------------------------
+  [1m[36mCompany Load (0.1ms)[0m  [1m[34mSELECT  "companies".* FROM "companies" ORDER BY "companies"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Create (0.8ms)[0m  [1m[32mINSERT INTO "companies" ("url", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["url", "a"], ["created_at", "2021-05-10 01:21:06.693304"], ["updated_at", "2021-05-10 01:21:06.693304"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.8ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "A"], ["LIMIT", 1]]
+  [1m[35m (0.5ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+----------------------------------------------------------------------
+CompanyTest: test_: Company should list organizations alphabetically. 
+----------------------------------------------------------------------
+  [1m[36mCompany Load (0.2ms)[0m  [1m[34mSELECT "companies".* FROM "companies" ORDER BY name[0m
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+--------------------------------------------------
+CompanyTest: test_: Company should have many tcs. 
+--------------------------------------------------
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+------------------------------------------------------------------
+CompanyTest: test_: Company should require description to be set. 
+------------------------------------------------------------------
+  [1m[36mCompany Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+---------------------------------------------------------------------
+CompanyTest: test_: Company should require crunchbase_url to be set. 
+---------------------------------------------------------------------
+  [1m[36mCompany Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------------------------------
+CompanyTest: test_: Company should require logo to be set. 
+-----------------------------------------------------------
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+----------------------------------------------------------------------------
+CompanyTest: test_: Given context should list organizations alphabetically. 
+----------------------------------------------------------------------------
+  [1m[36mCompany Load (0.5ms)[0m  [1m[34mSELECT "companies".* FROM "companies" ORDER BY name[0m
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------------------------------
+CompanyTest: test_: Company should require logo to be set. 
+-----------------------------------------------------------
+  [1m[36mCompany Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------------------------------
+CompanyTest: test_: Company should require name to be set. 
+-----------------------------------------------------------
+  [1m[36mCompany Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[36mbegin transaction[0m
+---------------------------------------------------------------------
+CompanyTest: test_: Company should require crunchbase_url to be set. 
+---------------------------------------------------------------------
+  [1m[36mCompany Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------------------------------------
+CompanyTest: test_: Company should require unique value for url. 
+-----------------------------------------------------------------
+  [1m[36mCompany Load (0.1ms)[0m  [1m[34mSELECT  "companies".* FROM "companies" ORDER BY "companies"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Create (0.9ms)[0m  [1m[32mINSERT INTO "companies" ("url", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["url", "a"], ["created_at", "2021-05-10 01:21:50.680676"], ["updated_at", "2021-05-10 01:21:50.680676"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "A"], ["LIMIT", 1]]
+  [1m[35m (0.5ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (3.6ms)[0m  [1m[36mbegin transaction[0m
+----------------------------------------------------------
+CompanyTest: test_: Company should require url to be set. 
+----------------------------------------------------------
+  [1m[36mCompany Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+--------------------------------------------------
+CompanyTest: test_: Company should have many tcs. 
+--------------------------------------------------
+  [1m[35m (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+------------------------------------------------------------------
+CompanyTest: test_: Company should require description to be set. 
+------------------------------------------------------------------
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+------------------------------------------------------------------
+CompanyTest: test_: Company should require description to be set. 
+------------------------------------------------------------------
+  [1m[36mCompany Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+----------------------------------------------------------------------------
+CompanyTest: test_: Given context should list organizations alphabetically. 
+----------------------------------------------------------------------------
+  [1m[35m (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------------------------------
+CompanyTest: test_: Company should require name to be set. 
+-----------------------------------------------------------
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+--------------------------------------------------
+CompanyTest: test_: Company should have many tcs. 
+--------------------------------------------------
+  [1m[35m (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------------------------------------
+CompanyTest: test_: Company should require unique value for url. 
+-----------------------------------------------------------------
+  [1m[36mCompany Load (0.1ms)[0m  [1m[34mSELECT  "companies".* FROM "companies" ORDER BY "companies"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Create (0.5ms)[0m  [1m[32mINSERT INTO "companies" ("url", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["url", "a"], ["created_at", "2021-05-10 01:22:17.858816"], ["updated_at", "2021-05-10 01:22:17.858816"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "A"], ["LIMIT", 1]]
+  [1m[35m (1.8ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+---------------------------------------------------------------------
+CompanyTest: test_: Company should require crunchbase_url to be set. 
+---------------------------------------------------------------------
+  [1m[36mCompany Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------------------------------
+CompanyTest: test_: Company should require logo to be set. 
+-----------------------------------------------------------
+  [1m[36mCompany Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+----------------------------------------------------------
+CompanyTest: test_: Company should require url to be set. 
+----------------------------------------------------------
+  [1m[36mCompany Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+---------------------------------------------------------------------
+CompanyTest: test_: Company should require crunchbase_url to be set. 
+---------------------------------------------------------------------
+  [1m[36mCompany Exists (5.2ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+----------------------------------------------------------------------------
+CompanyTest: test_: Given context should list organizations alphabetically. 
+----------------------------------------------------------------------------
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+------------------------------------------------------------------
+CompanyTest: test_: Company should require description to be set. 
+------------------------------------------------------------------
+  [1m[36mCompany Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+----------------------------------------------------------
+CompanyTest: test_: Company should require url to be set. 
+----------------------------------------------------------
+  [1m[36mCompany Exists (0.4ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------------------------------
+CompanyTest: test_: Company should require name to be set. 
+-----------------------------------------------------------
+  [1m[36mCompany Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+--------------------------------------------------
+CompanyTest: test_: Company should have many tcs. 
+--------------------------------------------------
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------------------------------------
+CompanyTest: test_: Company should require unique value for url. 
+-----------------------------------------------------------------
+  [1m[36mCompany Load (0.2ms)[0m  [1m[34mSELECT  "companies".* FROM "companies" ORDER BY "companies"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Create (0.9ms)[0m  [1m[32mINSERT INTO "companies" ("url", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["url", "a"], ["created_at", "2021-05-10 01:28:04.277025"], ["updated_at", "2021-05-10 01:28:04.277025"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "A"], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------------------------------
+CompanyTest: test_: Company should require logo to be set. 
+-----------------------------------------------------------
+  [1m[36mCompany Exists (0.5ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.5ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------------------------------
+CompanyTest: test_: Company should require logo to be set. 
+-----------------------------------------------------------
+  [1m[36mCompany Exists (0.5ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------------------------------
+CompanyTest: test_: Company should require name to be set. 
+-----------------------------------------------------------
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+----------------------------------------------------------
+CompanyTest: test_: Company should require url to be set. 
+----------------------------------------------------------
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+----------------------------------------------------------------------------
+CompanyTest: test_: Given context should list organizations alphabetically. 
+----------------------------------------------------------------------------
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "facebook.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (1.0ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Facebook"], ["description", "Facebook is an online social networking service that enables its users to connect with friends and family."], ["url", "facebook.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/rde5yhdgakaqryj6zpu6"], ["crunchbase_url", "https://www.crunchbase.com/organization/facebook?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:36:19.824827"], ["updated_at", "2021-05-10 01:36:19.824827"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "ebay.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "eBay"], ["description", "eBay is an online marketplace that connects a global network of buyers and sellers."], ["url", "ebay.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/kx4zcwarburlmyywxgmi"], ["crunchbase_url", "https://www.crunchbase.com/organization/ebay?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:36:19.830877"], ["updated_at", "2021-05-10 01:36:19.830877"]]
+  [1m[35m (0.7ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "redfin.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Redfin"], ["description", "Redfin is a provider of real estate search and brokerage services through a combination of real estate web platforms accessible to agents."], ["url", "redfin.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1501246013/evnzslds7sego0l3yjk5.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/redfin?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:36:19.843653"], ["updated_at", "2021-05-10 01:36:19.843653"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "sony.net"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Sony"], ["description", "Sony develops and manufactures audio, video, communications, and information technology products for the consumer and professional markets."], ["url", "sony.net"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1411511656/uiuethkebhfjlu3rbfds.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/sony?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:36:19.847145"], ["updated_at", "2021-05-10 01:36:19.847145"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "adobe.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Adobe"], ["description", "Adobe is a software company that provides its users with digital marketing and media solutions."], ["url", "adobe.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/qnbpcajqvlw8bkul1tru"], ["crunchbase_url", "https://www.crunchbase.com/organization/adobe-systems?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:36:19.850893"], ["updated_at", "2021-05-10 01:36:19.850893"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "grubhub.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Grubhub"], ["description", "Grubhub is a online and mobile food ordering and delivery marketplace dedicated to connecting diners with local restaurants."], ["url", "grubhub.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/c7y1rewcr36duo5sxmfu"], ["crunchbase_url", "https://www.crunchbase.com/organization/grubhub?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:36:19.853694"], ["updated_at", "2021-05-10 01:36:19.853694"]]
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "apple.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Apple"], ["description", "Apple is a multinational corporation that designs, manufactures, and markets consumer electronics, personal computers, and software."], ["url", "apple.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/s1cihnpc1cnekihotv0e"], ["crunchbase_url", "https://www.crunchbase.com/organization/apple?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:36:19.859490"], ["updated_at", "2021-05-10 01:36:19.859490"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "esty.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Esty"], ["description", "Etsy is an e-commerce site and a smartphone application for buying and selling handmade and vintage items."], ["url", "esty.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1475508264/bjljj1do9xbdoo1vxury.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/etsy?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:36:19.863701"], ["updated_at", "2021-05-10 01:36:19.863701"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "netflix.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Netflix"], ["description", "Netflix is an online platform that enables users to watch TV shows and movies."], ["url", "netflix.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1474467529/zlaaxu2whczitkpkxxk9.jpg"], ["crunchbase_url", "https://www.crunchbase.com/organization/netflix?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:36:19.866873"], ["updated_at", "2021-05-10 01:36:19.866873"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "jcrew.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "J.Crew"], ["description", "J. Crew is a clothing retailer with outlet stores, and an online and catalog business."], ["url", "jcrew.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1476427389/dxealdfj5thft83evkx7.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/j-crew?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:36:19.869900"], ["updated_at", "2021-05-10 01:36:19.869900"]]
+  [1m[35m (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "wayfair.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.2ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Wayfair"], ["description", "Wayfair is an online retailer of home products for bedroom, living room, kitchen and dining, home entertainment, bathroom, and more."], ["url", "wayfair.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/an3yqbdmkvimgvybbp0h"], ["crunchbase_url", "https://www.crunchbase.com/organization/wayfair?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:36:19.875615"], ["updated_at", "2021-05-10 01:36:19.875615"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "spotify.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Spotify"], ["description", "Spotify is a commercial music streaming service that provides restricted digital content from a range of record labels and artists."], ["url", "spotify.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1475248336/qmsen1jtcy8xgsghzc8z.jpg"], ["crunchbase_url", "https://www.crunchbase.com/organization/spotify?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:36:19.878809"], ["updated_at", "2021-05-10 01:36:19.878809"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "nike.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Nike"], ["description", "Nike designs, develops, and markets footwear, apparel, equipment, and accessory products."], ["url", "nike.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/vug8l7qigeetpmbvjw8v"], ["crunchbase_url", "https://www.crunchbase.com/organization/nike?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:36:19.882376"], ["updated_at", "2021-05-10 01:36:19.882376"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "awaytravel.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Away"], ["description", "Away is a modern travel and lifestyle brand designed with thoughtful features that solve real travel problems"], ["url", "awaytravel.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1439329479/rsjgztjqctj5i66xed2e.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/away-2?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:36:19.885983"], ["updated_at", "2021-05-10 01:36:19.885983"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "guitarcenter.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Guitar Center"], ["description", "Guitar Center, Inc. operates a chain of guitar and amplifier stores."], ["url", "guitarcenter.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1397195264/106b10383c9519dd0694d90005a26b67.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/guitar-center?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:36:19.888793"], ["updated_at", "2021-05-10 01:36:19.888793"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "adidas.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Adidas"], ["description", "Adidas is a global sports brand that manufactures apparel, accessories, and footwear for professional athletes involved in various sports."], ["url", "adidas.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/nkmockkfyvao3vn1euux"], ["crunchbase_url", "https://www.crunchbase.com/organization/adidas?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:36:19.891808"], ["updated_at", "2021-05-10 01:36:19.891808"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "nordstrom.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Nordstrom"], ["description", "Nordstrom is an online fashion retailer offering apparel, shoes, cosmetics and accessories for women, men and children."], ["url", "nordstrom.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1397188032/004af22b3e953a1adf225f3ee457849a.gif"], ["crunchbase_url", "https://www.crunchbase.com/organization/nordstrom?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:36:19.894647"], ["updated_at", "2021-05-10 01:36:19.894647"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "farfetch.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Farfetch"], ["description", "Farfetch is an online luxury fashion retail platform."], ["url", "farfetch.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/wko3ka42ewzfyanrvm9h"], ["crunchbase_url", "https://www.crunchbase.com/organization/farfetch?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:36:19.897470"], ["updated_at", "2021-05-10 01:36:19.897470"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "https://www.urbanoutfitters.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Urban Outfitters"], ["description", "Urban Outfitters is a global retailer with a boutique approach."], ["url", "https://www.urbanoutfitters.com"], ["logo", "https://www.urbanoutfitters.com"], ["crunchbase_url", "https://www.crunchbase.com/organization/urban-outfitters?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:36:19.901060"], ["updated_at", "2021-05-10 01:36:19.901060"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "sephora.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Sephora"], ["description", "Sephora is an online shopping site that offers a range of beauty products such as cosmetics and skincare items."], ["url", "sephora.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1458017185/qocoxeeloe4wvcumf501.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/sephora?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:36:19.903845"], ["updated_at", "2021-05-10 01:36:19.903845"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "https://shop.lululemon.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Lululemon"], ["description", "Lululemon is a technical athletic apparel company for yoga, running, training, and other sweaty pursuits."], ["url", "https://shop.lululemon.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1402477824/gzp6pjpnp4weulbxm0bl.jpg"], ["crunchbase_url", "https://www.crunchbase.com/organization/lululemon?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:36:19.906489"], ["updated_at", "2021-05-10 01:36:19.906489"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "uniqlo.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "UNIQLO"], ["description", "UNIQLO Co is an online store that sells women’s, men’s, and kids’ clothing and accessories."], ["url", "uniqlo.com"], ["logo", "https://res-1.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_170,w_170,f_auto,b_white,q_auto:eco/v1426676555/aczy25bx1rkfb85aibq8.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/uniqlo-co"], ["created_at", "2021-05-10 01:36:19.909150"], ["updated_at", "2021-05-10 01:36:19.909150"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mCompany Load (0.2ms)[0m  [1m[34mSELECT "companies".* FROM "companies" ORDER BY name[0m
+  [1m[35m (0.5ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------------------------------------
+CompanyTest: test_: Company should require unique value for url. 
+-----------------------------------------------------------------
+  [1m[36mCompany Load (0.3ms)[0m  [1m[34mSELECT  "companies".* FROM "companies" ORDER BY "companies"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Create (0.3ms)[0m  [1m[32mINSERT INTO "companies" ("url", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["url", "a"], ["created_at", "2021-05-10 01:36:19.960008"], ["updated_at", "2021-05-10 01:36:19.960008"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "A"], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+--------------------------------------------------
+CompanyTest: test_: Company should have many tcs. 
+--------------------------------------------------
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (2.5ms)[0m  [1m[36mbegin transaction[0m
+------------------------------------------------------------------
+CompanyTest: test_: Company should require description to be set. 
+------------------------------------------------------------------
+  [1m[36mCompany Exists (0.3ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+---------------------------------------------------------------------
+CompanyTest: test_: Company should require crunchbase_url to be set. 
+---------------------------------------------------------------------
+  [1m[36mCompany Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+---------------------------------------------------------------------
+CompanyTest: test_: Company should require crunchbase_url to be set. 
+---------------------------------------------------------------------
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+------------------------------------------------------------------------
+CompanyTest: test_: Given context should list companies alphabetically. 
+------------------------------------------------------------------------
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "facebook.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.3ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Facebook"], ["description", "Facebook is an online social networking service that enables its users to connect with friends and family."], ["url", "facebook.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/rde5yhdgakaqryj6zpu6"], ["crunchbase_url", "https://www.crunchbase.com/organization/facebook?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:43.388404"], ["updated_at", "2021-05-10 01:37:43.388404"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "ebay.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "eBay"], ["description", "eBay is an online marketplace that connects a global network of buyers and sellers."], ["url", "ebay.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/kx4zcwarburlmyywxgmi"], ["crunchbase_url", "https://www.crunchbase.com/organization/ebay?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:43.394116"], ["updated_at", "2021-05-10 01:37:43.394116"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "redfin.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Redfin"], ["description", "Redfin is a provider of real estate search and brokerage services through a combination of real estate web platforms accessible to agents."], ["url", "redfin.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1501246013/evnzslds7sego0l3yjk5.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/redfin?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:43.399038"], ["updated_at", "2021-05-10 01:37:43.399038"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "sony.net"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Sony"], ["description", "Sony develops and manufactures audio, video, communications, and information technology products for the consumer and professional markets."], ["url", "sony.net"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1411511656/uiuethkebhfjlu3rbfds.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/sony?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:43.402879"], ["updated_at", "2021-05-10 01:37:43.402879"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "adobe.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Adobe"], ["description", "Adobe is a software company that provides its users with digital marketing and media solutions."], ["url", "adobe.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/qnbpcajqvlw8bkul1tru"], ["crunchbase_url", "https://www.crunchbase.com/organization/adobe-systems?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:43.405918"], ["updated_at", "2021-05-10 01:37:43.405918"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "grubhub.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Grubhub"], ["description", "Grubhub is a online and mobile food ordering and delivery marketplace dedicated to connecting diners with local restaurants."], ["url", "grubhub.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/c7y1rewcr36duo5sxmfu"], ["crunchbase_url", "https://www.crunchbase.com/organization/grubhub?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:43.408799"], ["updated_at", "2021-05-10 01:37:43.408799"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "apple.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Apple"], ["description", "Apple is a multinational corporation that designs, manufactures, and markets consumer electronics, personal computers, and software."], ["url", "apple.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/s1cihnpc1cnekihotv0e"], ["crunchbase_url", "https://www.crunchbase.com/organization/apple?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:43.411438"], ["updated_at", "2021-05-10 01:37:43.411438"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "esty.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.2ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Esty"], ["description", "Etsy is an e-commerce site and a smartphone application for buying and selling handmade and vintage items."], ["url", "esty.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1475508264/bjljj1do9xbdoo1vxury.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/etsy?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:43.414309"], ["updated_at", "2021-05-10 01:37:43.414309"]]
+  [1m[35m (0.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "netflix.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Netflix"], ["description", "Netflix is an online platform that enables users to watch TV shows and movies."], ["url", "netflix.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1474467529/zlaaxu2whczitkpkxxk9.jpg"], ["crunchbase_url", "https://www.crunchbase.com/organization/netflix?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:43.419440"], ["updated_at", "2021-05-10 01:37:43.419440"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "jcrew.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "J.Crew"], ["description", "J. Crew is a clothing retailer with outlet stores, and an online and catalog business."], ["url", "jcrew.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1476427389/dxealdfj5thft83evkx7.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/j-crew?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:43.422293"], ["updated_at", "2021-05-10 01:37:43.422293"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (1.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "wayfair.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.3ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Wayfair"], ["description", "Wayfair is an online retailer of home products for bedroom, living room, kitchen and dining, home entertainment, bathroom, and more."], ["url", "wayfair.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/an3yqbdmkvimgvybbp0h"], ["crunchbase_url", "https://www.crunchbase.com/organization/wayfair?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:43.427145"], ["updated_at", "2021-05-10 01:37:43.427145"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.5ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "spotify.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Spotify"], ["description", "Spotify is a commercial music streaming service that provides restricted digital content from a range of record labels and artists."], ["url", "spotify.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1475248336/qmsen1jtcy8xgsghzc8z.jpg"], ["crunchbase_url", "https://www.crunchbase.com/organization/spotify?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:43.434108"], ["updated_at", "2021-05-10 01:37:43.434108"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "nike.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Nike"], ["description", "Nike designs, develops, and markets footwear, apparel, equipment, and accessory products."], ["url", "nike.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/vug8l7qigeetpmbvjw8v"], ["crunchbase_url", "https://www.crunchbase.com/organization/nike?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:43.439471"], ["updated_at", "2021-05-10 01:37:43.439471"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "awaytravel.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Away"], ["description", "Away is a modern travel and lifestyle brand designed with thoughtful features that solve real travel problems"], ["url", "awaytravel.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1439329479/rsjgztjqctj5i66xed2e.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/away-2?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:43.442955"], ["updated_at", "2021-05-10 01:37:43.442955"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "guitarcenter.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Guitar Center"], ["description", "Guitar Center, Inc. operates a chain of guitar and amplifier stores."], ["url", "guitarcenter.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1397195264/106b10383c9519dd0694d90005a26b67.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/guitar-center?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:43.445659"], ["updated_at", "2021-05-10 01:37:43.445659"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "adidas.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Adidas"], ["description", "Adidas is a global sports brand that manufactures apparel, accessories, and footwear for professional athletes involved in various sports."], ["url", "adidas.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/nkmockkfyvao3vn1euux"], ["crunchbase_url", "https://www.crunchbase.com/organization/adidas?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:43.450018"], ["updated_at", "2021-05-10 01:37:43.450018"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "nordstrom.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Nordstrom"], ["description", "Nordstrom is an online fashion retailer offering apparel, shoes, cosmetics and accessories for women, men and children."], ["url", "nordstrom.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1397188032/004af22b3e953a1adf225f3ee457849a.gif"], ["crunchbase_url", "https://www.crunchbase.com/organization/nordstrom?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:43.453025"], ["updated_at", "2021-05-10 01:37:43.453025"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "farfetch.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Farfetch"], ["description", "Farfetch is an online luxury fashion retail platform."], ["url", "farfetch.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/wko3ka42ewzfyanrvm9h"], ["crunchbase_url", "https://www.crunchbase.com/organization/farfetch?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:43.455794"], ["updated_at", "2021-05-10 01:37:43.455794"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "https://www.urbanoutfitters.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.2ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Urban Outfitters"], ["description", "Urban Outfitters is a global retailer with a boutique approach."], ["url", "https://www.urbanoutfitters.com"], ["logo", "https://www.urbanoutfitters.com"], ["crunchbase_url", "https://www.crunchbase.com/organization/urban-outfitters?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:43.459391"], ["updated_at", "2021-05-10 01:37:43.459391"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "sephora.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Sephora"], ["description", "Sephora is an online shopping site that offers a range of beauty products such as cosmetics and skincare items."], ["url", "sephora.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1458017185/qocoxeeloe4wvcumf501.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/sephora?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:43.462712"], ["updated_at", "2021-05-10 01:37:43.462712"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "https://shop.lululemon.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Lululemon"], ["description", "Lululemon is a technical athletic apparel company for yoga, running, training, and other sweaty pursuits."], ["url", "https://shop.lululemon.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1402477824/gzp6pjpnp4weulbxm0bl.jpg"], ["crunchbase_url", "https://www.crunchbase.com/organization/lululemon?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:43.465927"], ["updated_at", "2021-05-10 01:37:43.465927"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "uniqlo.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "UNIQLO"], ["description", "UNIQLO Co is an online store that sells women’s, men’s, and kids’ clothing and accessories."], ["url", "uniqlo.com"], ["logo", "https://res-1.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_170,w_170,f_auto,b_white,q_auto:eco/v1426676555/aczy25bx1rkfb85aibq8.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/uniqlo-co"], ["created_at", "2021-05-10 01:37:43.468667"], ["updated_at", "2021-05-10 01:37:43.468667"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mCompany Load (0.2ms)[0m  [1m[34mSELECT "companies".* FROM "companies" ORDER BY name[0m
+  [1m[35m (1.6ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+----------------------------------------------------------
+CompanyTest: test_: Company should require url to be set. 
+----------------------------------------------------------
+  [1m[36mCompany Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------------------------------------
+CompanyTest: test_: Company should require unique value for url. 
+-----------------------------------------------------------------
+  [1m[36mCompany Load (0.2ms)[0m  [1m[34mSELECT  "companies".* FROM "companies" ORDER BY "companies"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Create (0.3ms)[0m  [1m[32mINSERT INTO "companies" ("url", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["url", "a"], ["created_at", "2021-05-10 01:37:43.485385"], ["updated_at", "2021-05-10 01:37:43.485385"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "A"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------------------------------
+CompanyTest: test_: Company should require name to be set. 
+-----------------------------------------------------------
+  [1m[36mCompany Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+------------------------------------------------------------------
+CompanyTest: test_: Company should require description to be set. 
+------------------------------------------------------------------
+  [1m[36mCompany Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------------------------------
+CompanyTest: test_: Company should require logo to be set. 
+-----------------------------------------------------------
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+--------------------------------------------------
+CompanyTest: test_: Company should have many tcs. 
+--------------------------------------------------
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+----------------------------------------------------------
+CompanyTest: test_: Company should require url to be set. 
+----------------------------------------------------------
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+------------------------------------------------------------------------
+CompanyTest: test_: Given context should list companies alphabetically. 
+------------------------------------------------------------------------
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "facebook.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.4ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Facebook"], ["description", "Facebook is an online social networking service that enables its users to connect with friends and family."], ["url", "facebook.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/rde5yhdgakaqryj6zpu6"], ["crunchbase_url", "https://www.crunchbase.com/organization/facebook?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:57.914439"], ["updated_at", "2021-05-10 01:37:57.914439"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "ebay.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "eBay"], ["description", "eBay is an online marketplace that connects a global network of buyers and sellers."], ["url", "ebay.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/kx4zcwarburlmyywxgmi"], ["crunchbase_url", "https://www.crunchbase.com/organization/ebay?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:57.918389"], ["updated_at", "2021-05-10 01:37:57.918389"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "redfin.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Redfin"], ["description", "Redfin is a provider of real estate search and brokerage services through a combination of real estate web platforms accessible to agents."], ["url", "redfin.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1501246013/evnzslds7sego0l3yjk5.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/redfin?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:57.922563"], ["updated_at", "2021-05-10 01:37:57.922563"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "sony.net"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Sony"], ["description", "Sony develops and manufactures audio, video, communications, and information technology products for the consumer and professional markets."], ["url", "sony.net"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1411511656/uiuethkebhfjlu3rbfds.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/sony?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:57.928869"], ["updated_at", "2021-05-10 01:37:57.928869"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "adobe.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Adobe"], ["description", "Adobe is a software company that provides its users with digital marketing and media solutions."], ["url", "adobe.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/qnbpcajqvlw8bkul1tru"], ["crunchbase_url", "https://www.crunchbase.com/organization/adobe-systems?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:57.931874"], ["updated_at", "2021-05-10 01:37:57.931874"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "grubhub.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.2ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Grubhub"], ["description", "Grubhub is a online and mobile food ordering and delivery marketplace dedicated to connecting diners with local restaurants."], ["url", "grubhub.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/c7y1rewcr36duo5sxmfu"], ["crunchbase_url", "https://www.crunchbase.com/organization/grubhub?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:57.935167"], ["updated_at", "2021-05-10 01:37:57.935167"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "apple.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Apple"], ["description", "Apple is a multinational corporation that designs, manufactures, and markets consumer electronics, personal computers, and software."], ["url", "apple.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/s1cihnpc1cnekihotv0e"], ["crunchbase_url", "https://www.crunchbase.com/organization/apple?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:57.939713"], ["updated_at", "2021-05-10 01:37:57.939713"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "esty.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Esty"], ["description", "Etsy is an e-commerce site and a smartphone application for buying and selling handmade and vintage items."], ["url", "esty.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1475508264/bjljj1do9xbdoo1vxury.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/etsy?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:57.945174"], ["updated_at", "2021-05-10 01:37:57.945174"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "netflix.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Netflix"], ["description", "Netflix is an online platform that enables users to watch TV shows and movies."], ["url", "netflix.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1474467529/zlaaxu2whczitkpkxxk9.jpg"], ["crunchbase_url", "https://www.crunchbase.com/organization/netflix?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:57.948995"], ["updated_at", "2021-05-10 01:37:57.948995"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "jcrew.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "J.Crew"], ["description", "J. Crew is a clothing retailer with outlet stores, and an online and catalog business."], ["url", "jcrew.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1476427389/dxealdfj5thft83evkx7.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/j-crew?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:57.951913"], ["updated_at", "2021-05-10 01:37:57.951913"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "wayfair.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Wayfair"], ["description", "Wayfair is an online retailer of home products for bedroom, living room, kitchen and dining, home entertainment, bathroom, and more."], ["url", "wayfair.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/an3yqbdmkvimgvybbp0h"], ["crunchbase_url", "https://www.crunchbase.com/organization/wayfair?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:57.955160"], ["updated_at", "2021-05-10 01:37:57.955160"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "spotify.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Spotify"], ["description", "Spotify is a commercial music streaming service that provides restricted digital content from a range of record labels and artists."], ["url", "spotify.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1475248336/qmsen1jtcy8xgsghzc8z.jpg"], ["crunchbase_url", "https://www.crunchbase.com/organization/spotify?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:57.958174"], ["updated_at", "2021-05-10 01:37:57.958174"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "nike.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Nike"], ["description", "Nike designs, develops, and markets footwear, apparel, equipment, and accessory products."], ["url", "nike.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/vug8l7qigeetpmbvjw8v"], ["crunchbase_url", "https://www.crunchbase.com/organization/nike?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:57.961182"], ["updated_at", "2021-05-10 01:37:57.961182"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "awaytravel.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Away"], ["description", "Away is a modern travel and lifestyle brand designed with thoughtful features that solve real travel problems"], ["url", "awaytravel.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1439329479/rsjgztjqctj5i66xed2e.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/away-2?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:57.963900"], ["updated_at", "2021-05-10 01:37:57.963900"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "guitarcenter.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Guitar Center"], ["description", "Guitar Center, Inc. operates a chain of guitar and amplifier stores."], ["url", "guitarcenter.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1397195264/106b10383c9519dd0694d90005a26b67.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/guitar-center?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:57.966685"], ["updated_at", "2021-05-10 01:37:57.966685"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "adidas.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Adidas"], ["description", "Adidas is a global sports brand that manufactures apparel, accessories, and footwear for professional athletes involved in various sports."], ["url", "adidas.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/nkmockkfyvao3vn1euux"], ["crunchbase_url", "https://www.crunchbase.com/organization/adidas?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:57.969422"], ["updated_at", "2021-05-10 01:37:57.969422"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "nordstrom.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Nordstrom"], ["description", "Nordstrom is an online fashion retailer offering apparel, shoes, cosmetics and accessories for women, men and children."], ["url", "nordstrom.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1397188032/004af22b3e953a1adf225f3ee457849a.gif"], ["crunchbase_url", "https://www.crunchbase.com/organization/nordstrom?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:57.972616"], ["updated_at", "2021-05-10 01:37:57.972616"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "farfetch.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Farfetch"], ["description", "Farfetch is an online luxury fashion retail platform."], ["url", "farfetch.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/wko3ka42ewzfyanrvm9h"], ["crunchbase_url", "https://www.crunchbase.com/organization/farfetch?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:57.975459"], ["updated_at", "2021-05-10 01:37:57.975459"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "https://www.urbanoutfitters.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Urban Outfitters"], ["description", "Urban Outfitters is a global retailer with a boutique approach."], ["url", "https://www.urbanoutfitters.com"], ["logo", "https://www.urbanoutfitters.com"], ["crunchbase_url", "https://www.crunchbase.com/organization/urban-outfitters?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:57.978125"], ["updated_at", "2021-05-10 01:37:57.978125"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "sephora.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Sephora"], ["description", "Sephora is an online shopping site that offers a range of beauty products such as cosmetics and skincare items."], ["url", "sephora.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1458017185/qocoxeeloe4wvcumf501.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/sephora?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:57.980720"], ["updated_at", "2021-05-10 01:37:57.980720"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "https://shop.lululemon.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Lululemon"], ["description", "Lululemon is a technical athletic apparel company for yoga, running, training, and other sweaty pursuits."], ["url", "https://shop.lululemon.com"], ["logo", "https://res.cloudinary.com/crunchbase-production/image/upload/v1402477824/gzp6pjpnp4weulbxm0bl.jpg"], ["crunchbase_url", "https://www.crunchbase.com/organization/lululemon?utm_source=crunchbase&utm_medium=export&utm_campaign=odm_csv"], ["created_at", "2021-05-10 01:37:57.983991"], ["updated_at", "2021-05-10 01:37:57.983991"]]
+  [1m[35m (0.0ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.0ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "uniqlo.com"], ["LIMIT", 1]]
+  [1m[36mCompany Create (0.1ms)[0m  [1m[32mINSERT INTO "companies" ("name", "description", "url", "logo", "crunchbase_url", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["name", "UNIQLO"], ["description", "UNIQLO Co is an online store that sells women’s, men’s, and kids’ clothing and accessories."], ["url", "uniqlo.com"], ["logo", "https://res-1.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_170,w_170,f_auto,b_white,q_auto:eco/v1426676555/aczy25bx1rkfb85aibq8.png"], ["crunchbase_url", "https://www.crunchbase.com/organization/uniqlo-co"], ["created_at", "2021-05-10 01:37:57.986673"], ["updated_at", "2021-05-10 01:37:57.986673"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mCompany Load (0.2ms)[0m  [1m[34mSELECT "companies".* FROM "companies" ORDER BY name[0m
+  [1m[35m (1.7ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------------------------------------
+CompanyTest: test_: Company should require unique value for url. 
+-----------------------------------------------------------------
+  [1m[36mCompany Load (0.2ms)[0m  [1m[34mSELECT  "companies".* FROM "companies" ORDER BY "companies"."id" ASC LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCompany Create (0.3ms)[0m  [1m[32mINSERT INTO "companies" ("url", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["url", "a"], ["created_at", "2021-05-10 01:37:58.002981"], ["updated_at", "2021-05-10 01:37:58.002981"]]
+  [1m[35m (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE LOWER("companies"."url") = LOWER(?) LIMIT ?[0m  [["url", "A"], ["LIMIT", 1]]
+  [1m[35m (0.4ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+------------------------------------------------------------------
+CompanyTest: test_: Company should require description to be set. 
+------------------------------------------------------------------
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.7ms)[0m  [1m[36mbegin transaction[0m
+---------------------------------------------------------------------
+CompanyTest: test_: Company should require crunchbase_url to be set. 
+---------------------------------------------------------------------
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------------------------------
+CompanyTest: test_: Company should require logo to be set. 
+-----------------------------------------------------------
+  [1m[36mCompany Exists (0.2ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------------------------------
+CompanyTest: test_: Company should require name to be set. 
+-----------------------------------------------------------
+  [1m[36mCompany Exists (0.1ms)[0m  [1m[34mSELECT  1 AS one FROM "companies" WHERE "companies"."url" IS NULL LIMIT ?[0m  [["LIMIT", 1]]
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[36mbegin transaction[0m
+--------------------------------------------------
+CompanyTest: test_: Company should have many tcs. 
+--------------------------------------------------
+  [1m[35m (0.1ms)[0m  [1m[31mrollback transaction[0m

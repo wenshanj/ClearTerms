@@ -1,0 +1,63 @@
+<section id="important-terms">
+
+  <div id="term-background"> 
+    <div id="term-container">
+      <div id="term-details">
+        <div class="section-title">
+          <h1> Most Important Terms</h1>
+        </div>
+        <table>
+          <tbody>
+              <tr>
+                <th> Product/Service </th>
+                <td> This is an example of a term in the terms and conditions that people deem important.</td>
+              </tr>
+              <tr>
+                <th> Liability </th>
+                <td> This is another example of a term in the terms and conditions that people deem important. </td>
+              </tr>
+              <tr>
+                <th> Intellectual Property </th>
+                <td> This is yet another example of a term that people deem important. </td>
+              </tr>
+              <tr>
+                <th> Liability </th>
+                <td> This is another example of a term in the terms and conditions that people deem important.</td>
+              </tr>
+              <tr>
+                <th> Intellectual Property </th>
+                <td> This is yet another example of a term that people deem important. This time it’s in a different category - intellectual property. </td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="participate">
+    <h1> Data Analysis</h1>
+    <h2>Company policy was last analyzed by ClearTerms on:</h2>
+    <p>04/20/20</p>  <!-- arbitrary date- change later! -->
+    <br>
+    <h2>How the data was analyzed by ClearTerms:</h2>
+    <p>Our method for analyzing websites uses a machine learning model that we built.
+        This model is based on crowdsourced surveys that we conducted to capture people's
+        opinion on various privacy statements. You can see more information about the logistics in the <%= link_to 'Frequently Asked Questions Page', faq_path %>.</p>
+    <br>
+    <h2>How does this work?</h2>
+    <p> ClearTerms chooses these terms via a machine learning algorithm based on crowdsourcing. <br> <br> Hundreds of people identified 
+        terms they thought were important; their opinions were tested for consistency and then used to train the model. </p>
+    <br>
+    <h2>Attribution</h2>
+    <p> The company information on the page is powered by Crunchbase. Learn more about the company on the <%=  link_to "Crunchbase website", "#{@company.crunchbase_url}", target: "_blank" %>.</p>
+    <br>
+    <div class="d-flex justify-content-center">
+      <%= link_to "Help Rank Terms & Conditions", help_path, class: "btn-get-started" %>
+    </div>
+    <br>
+    <div class="d-flex justify-content-center">
+      <%= link_to "Frequently Asked Questions", faq_path, class: "btn-get-started" %>
+    </div>
+  </div>
+
+</section>

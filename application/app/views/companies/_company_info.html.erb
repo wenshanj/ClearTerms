@@ -1,0 +1,12 @@
+<section id="company-info">
+  <div id="company-logo">
+    <%= link_to "http://#{@company.url}", target: "_blank" do %>
+      <%= image_tag "logo/#{@company.logo}" %>
+    <% end %>
+  </div>
+  <div id="company-desc">
+    <h1><%= link_to "#{@company.name}", "http://#{@company.url}", target: "_blank" %></h1>
+    <br><br>
+    <p><%= @company.description %></p>
+  </div>
+</section>

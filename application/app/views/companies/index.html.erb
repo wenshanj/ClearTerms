@@ -1,0 +1,25 @@
+<section id="browse" class="browse section-bg2">
+  <div class="container" data-aos="fade-in">
+    <div class="section-title">
+      <h3>Browse Companies</h3>
+      <p>View terms & conditions from hundreds of ecommerce sites. Terms are ranked to show you what's most important.</p>
+      <p><%= link_to "Can’t find the one you want?", add_company_path %></p>
+    </div>
+    <% count = 0%>
+    <div class="row company-row d-flex align-items-stretch">
+      <div class="company col-md-4">
+        <% for company in Company.alphabetical %>
+		  <% if count % 3 == 0%>
+			</div>
+			<div class="row company-row d-flex align-items-stretch">
+		  <% end %>
+		  <% count += 1 %>
+		  <div class="company col-md-4">
+            <%= link_to company_path(company) do %>
+              <%= image_tag "logo/#{company.logo}", class: "mx-auto" %>
+            <% end %>
+		  </div>
+	  <% end %>
+    </div>
+  </div>
+</section>
