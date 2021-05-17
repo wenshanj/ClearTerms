@@ -4,7 +4,7 @@
         <h1 class="text-light"><%= link_to 'ClearTerms', home_path %><span></span></h1>
         <h6>simplifying terms & conditions</h6>
     </div>
-    <nav class="nav-menu d-none d-lg-block">
+    <nav class="nav-menu d-none d-lg-block float-right">
       <ul>
         <li><%= link_to 'Browse Companies', companies_path %></li>
         <li><%= link_to 'FAQ', faq_path %></li>
@@ -12,10 +12,10 @@
         <li><%= link_to 'About Us', about_path %></li>
         <li class="col-xs-3">
             <div class="input-group mb-3" >
-                <input class="form-control input-search" type="text" placeholder="find a company..." onkeyup="searchCompany()" id="myInput">
+                <input class="form-control input-search" type="text" placeholder="find a company..." id="myInput">
                 <div class="input-group-append">
-                    <button href="browse.html" class="btn btn-search" type="submit" onmousedown="searchCompanyEnter()"><i class="fas fa-search"></i></button>
-                 </div>
+                  <button href="browse.html" class="btn btn-search" type="submit"><i class="fas fa-search"></i></button>
+                </div>
             </div>
         </li>
       </ul>

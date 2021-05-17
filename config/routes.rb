@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'home/help', to: 'home#help', as: :help
   get 'home/faq', to: 'home#faq', as: :faq
   get 'home/add_company', to: 'home#add_company', as: :add_company
+  get 'home/search', to: 'home#search', as: :search
 
   resources :companies
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
