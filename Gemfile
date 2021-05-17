@@ -44,7 +44,7 @@ gem 'will_paginate', '3.3.0'
 gem 'jquery-rails', '4.3.1'
 gem 'jquery-ui-rails', '6.0.1'
 gem 'bootstrap', '~> 5.0.0'
-
+gem "jquery-slick-rails"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

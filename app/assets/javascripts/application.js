@@ -19,6 +19,7 @@
 //= require popper
 //= require bootstrap
 //= require bootstrap-sprockets
+//= require jquery.slick
 
 // Accordion
 var acc = document.getElementsByClassName("accordion");
